@@ -31,7 +31,7 @@ export default function Page({ params }: { params: { id: string } }) {
               <div className="flex justify-between">
                 <div className="flex flex-col gap-2">
                   <h1 className="text-xl font-medium text-gray-900">{product?.name}</h1>
-                  <h2 className="text-sm text-gray-600">{product?.categoryName}</h2>
+                  <h2 className="text-sm text-gray-500">{product?.categoryName}</h2>
                 </div>
                 <p className="text-xl font-medium text-gray-900"> Rp.
                     {product?.harga
@@ -49,7 +49,7 @@ export default function Page({ params }: { params: { id: string } }) {
                     src={product?.image}
                     alt={product?.description}
                     className={cn(
-                      'lg:col-span-2 lg:row-span-2'
+                      'lg:col-span-2 lg:row-span-2 rounded-md border border-slate-300 drop-shadow-md'
                     )}
                   />
               </div>
@@ -58,23 +58,15 @@ export default function Page({ params }: { params: { id: string } }) {
             <div className="mt-8 lg:col-span-5">
 
               {/* Product details */}
-              <div className="pt-10">
+              <div className="pt-2">
                 <h2 className="text-sm font-medium text-gray-900">Description</h2>
 
-                <div
-                  className="prose prose-sm mt-4 text-gray-500"
-                >
-                  {product?.description }
-                </div>
+                <p className='text-lg text-slate-500'>{product?.description}</p>
               </div>
               <div className="pt-10">
                 <h2 className="text-sm font-medium text-gray-900">SKU</h2>
 
-                <div
-                  className="prose prose-sm mt-4 text-gray-500"
-                >
-                  {product?.sku }
-                </div>
+                <p className='text-lg text-slate-500'>{product?.sku}</p>
               </div>
 
               <div className="pt-10">

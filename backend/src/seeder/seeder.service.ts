@@ -36,6 +36,13 @@ export class SeederService implements OnModuleInit {
         name: item.name + '-3',
       });
     }
+
+    for (const item of shoppingItems) {
+      await this.shopItemService.create({
+        ...item,
+        name: item.name + '-4',
+      });
+    }
   }
 
   private async seedUser(): Promise<void> {

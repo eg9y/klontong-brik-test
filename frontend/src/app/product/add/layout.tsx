@@ -16,8 +16,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={'bg-white'}>
         <AuthSessionProvider>
-            <NavBar />
-            {children}</AuthSessionProvider>
+          <NavBar />
+          {children}
+        </AuthSessionProvider>
       </body>
     </html>
   );
