@@ -32,7 +32,7 @@ export function NavBar() {
                   )}
                 </Disclosure.Button>
               </div>
-                <Link href="/" className="sm:flex hidden flex-shrink-0 items-center text-green-900 font-bold text-md px-2">
+                <Link href="/" className="sm:flex hidden flex-shrink-0 items-center text-green-900 font-bold text-md px-4">
                   Klontongpedia
                 </Link>
                 <div className="flex grow sm:max-w-4xl w-20">

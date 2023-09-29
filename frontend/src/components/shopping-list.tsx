@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { usePaginatedData } from './use-paginated-data';
 import { Pagination } from './pagination';
+import Link from 'next/link';
 
 const PRODUCTS_PER_PAGE = 24;
 
@@ -30,7 +31,8 @@ export function ShoppingList() {
         </div>
         <div className="pt-2 grid pb-10 grid-cols-3 gap-x-2 gap-y-4 lg:grid-cols-6 xl:gap-x-2 sm:px-0 px-2">
           {products.map((product) => (
-            <div
+            <Link
+              href={`/product/${product.id}`}
               key={product.id}
               className="group relative border border-slate-200 shadow-sm rounded-md hover:shadow-md"
             >
@@ -62,7 +64,7 @@ export function ShoppingList() {
                   {product.categoryName}
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
         <Pagination

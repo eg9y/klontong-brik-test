@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Query,
   ValidationPipe,
@@ -16,6 +17,11 @@ export class ShopItemController {
   @Get('get-items')
   async getItems(@Query('skip') skip = 0, @Query('take') take = 8) {
     return this.shopItemService.getItems(skip, take);
+  }
+
+  @Get('get-item/:id')
+  async getItem(@Param('id') id: number) {
+    return this.shopItemService.getItem(id);
   }
 
   // get count
