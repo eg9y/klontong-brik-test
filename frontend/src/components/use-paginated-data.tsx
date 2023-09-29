@@ -13,10 +13,14 @@ export function usePaginatedData(productCountPerPage: number, router: AppRouterI
     useEffect(() => {
       async function fetchData() {
         const skip = searchParams.get('skip');
-        const res = await fetch(
-          `http://localhost:3000/shop-item/get-items?skip=${
-            skip || 0
-          }&take=${productCountPerPage}`,
+        const searchQuery = searchParams.get('searchQuery');
+        let url = `http://localhost:3000/shop-item/get-items?skip=${
+          skip || 0
+        }&take=${productCountPerPage}`;
+        if (searchQuery && searchQuery.length > 0) {
+          url += `&searchQuery=${searchQuery}`;
+        }
+        const res = await fetch(url,
         );
         const data = await res.json();
         setData(data);

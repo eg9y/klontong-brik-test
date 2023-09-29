@@ -21,9 +21,7 @@ export default function Page({ params }: { params: { id: string } }) {
   }, [params.id]);
 
   return (
-    <AuthSessionProvider>
     <div className="bg-white">
-      <NavBar />
       <div className="pb-16 sm:pb-24 sm:pt-16 pt-20">
         <div className="mx-auto mt-8 max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
           <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
@@ -42,8 +40,6 @@ export default function Page({ params }: { params: { id: string } }) {
 
             {/* Image gallery */}
             <div className="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
-              <h2 className="sr-only">Images</h2>
-
               <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8">
               <img
                     src={product?.image}
@@ -105,6 +101,5 @@ export default function Page({ params }: { params: { id: string } }) {
         </div>
       </div>
     </div>
-    </AuthSessionProvider>
   )
 }

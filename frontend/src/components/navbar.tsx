@@ -2,14 +2,16 @@
 
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { Disclosure } from '@headlessui/react';
-import {
+import Link from 'next/link';
+import { 
   Bars3Icon,
   MagnifyingGlassIcon,
   XMarkIcon,
-} from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import { PlusSmallIcon } from '@heroicons/react/24/solid';
+  PlusSmallIcon } from '@heroicons/react/24/solid';
+import { useDebounce } from 'use-debounce';
 import { cn } from '@/lib/utils';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export function NavBar() {
   const { data: session } = useSession();
@@ -50,16 +52,7 @@ export function NavBar() {
                           aria-hidden="true"
                         />
                       </div>
-                      <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        autoComplete="off"
-                        // remove dropdown suggestion
-
-                        className="block w-full rounded-md border-0 py-1.5 pl-10 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
-                        placeholder="Search Product"
-                      />
+                     <SearchComponent />
                     </div>
                   </div>
                 </div>
@@ -163,5 +156,31 @@ export function NavBar() {
         </>
       )}
     </Disclosure>
+  );
+}
+
+
+function SearchComponent() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery] = useDebounce(searchQuery, 300);  // 300ms debounce delay
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router) {
+      router.push(`?searchQuery=${debouncedSearchQuery}`);
+    }
+  }, [debouncedSearchQuery, router]);
+
+  return (
+    <input
+      type="text"  // Change type to "text" for a search input
+      name="search"
+      id="search"
+      autoComplete="off"
+      className="block w-full rounded-md border-0 py-1.5 pl-10 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+      placeholder="Search Product"
+      value={searchQuery}
+      onChange={e => setSearchQuery(e.target.value)}
+    />
   );
 }

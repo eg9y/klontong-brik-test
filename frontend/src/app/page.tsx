@@ -1,17 +1,20 @@
-"use client";
+'use client';
 
 import AuthSessionProvider from '@/components/auth-session-provider';
-import { NavBar } from '@/components/navbar'
+import { NavBar } from '@/components/navbar';
 import { ShoppingList } from '@/components/shopping-list';
-import Image from 'next/image'
+import store from '@/lib/store';
+import { Provider } from 'react-redux';
 
 export default function Home() {
   return (
-    <AuthSessionProvider>
-      <main className="">
+    <Provider store={store}>
+      <AuthSessionProvider>
+        <main className="h-full bg-white">
           <NavBar />
           <ShoppingList />
-      </main>
-    </AuthSessionProvider>
-  )
+        </main>
+      </AuthSessionProvider>
+    </Provider>
+  );
 }

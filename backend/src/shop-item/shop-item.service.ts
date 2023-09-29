@@ -1,7 +1,7 @@
 // src/shop-item/shop-item.service.ts
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { ShopItem } from './shop-item.entity';
 
 @Injectable()
@@ -30,11 +30,33 @@ export class ShopItemService {
     });
   }
 
-  async getItems(skip = 0, take = 10): Promise<ShopItem[]> {
+  async getItems(
+    skip = 0,
+    take = 10,
+    searchQuery?: string,
+  ): Promise<ShopItem[]> {
+    if (searchQuery) {
+      return this.searchItems(searchQuery, skip, take);
+    }
     return this.shopItemRepository.find({ skip, take });
   }
 
   async getCount(): Promise<number> {
     return this.shopItemRepository.count();
+  }
+
+  async searchItems(
+    searchQuery: string,
+    skip = 0,
+    take = 10,
+  ): Promise<ShopItem[]> {
+    return this.shopItemRepository.find({
+      where: [
+        { name: ILike(`%${searchQuery}%`) },
+        { description: ILike(`%${searchQuery}%`) },
+      ],
+      skip,
+      take,
+    });
   }
 }
