@@ -12,7 +12,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={'bg-white'}>
+      <body className={'bg-white sm:h-[100vh]'}>
         <Provider store={store}>
         <AuthSessionProvider>
           <NavBar />

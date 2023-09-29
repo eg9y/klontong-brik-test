@@ -30,6 +30,7 @@ export function ShoppingList() {
           </p>
         </div>
         <div className="pt-2 grid pb-10 grid-cols-3 gap-x-2 gap-y-4 lg:grid-cols-6 xl:gap-x-2 sm:px-0 px-2">
+          {products.length === 0 && <Skeleton />}
           {products.map((product) => (
             <Link
               href={`/product/${product.id}`}
@@ -48,10 +49,8 @@ export function ShoppingList() {
               <div className="mt-4 flex flex-col p-4">
                 <div>
                   <h3 className="text-sm text-slate-700">
-                    <a href={product.description} className="">
                       <span aria-hidden="true" className="absolute inset-0" />
                       {product.name}
-                    </a>
                   </h3>
                   <p className="mt-1 text-sm font-bold text-slate-900">
                     Rp.
@@ -76,5 +75,21 @@ export function ShoppingList() {
         />
       </div>
     </div>
+  );
+}
+
+function Skeleton() {
+  return (
+    <>
+      {Array.from({ length: 24 }).map((_, i) => (
+        <div
+          key={i}
+          className="group relative border border-slate-200 shadow-sm rounded-md hover:shadow-md"
+          style={{ animation: `custom-pulse 2s infinite ${i * 0.1}s`, backgroundColor: "#e0e7f1" }}
+        >
+          <div className="pt-8 px-4 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md lg:aspect-none h-44" />
+        </div>
+      ))}
+    </>
   );
 }

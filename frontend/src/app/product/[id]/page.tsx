@@ -13,7 +13,6 @@ export default function Page({ params }: { params: { id: string } }) {
     async function getProduct() {
       const res = await fetch(`http://localhost:3000/shop-item/get-item/${params.id}`);
       const data = await res.json();
-      console.log('data', data);
       setProduct(data);
     }
 
@@ -21,7 +20,7 @@ export default function Page({ params }: { params: { id: string } }) {
   }, [params.id]);
 
   return (
-    <div className="bg-white">
+    <div className="bg-white h-full">
       <div className="pb-16 sm:pb-24 sm:pt-16 pt-20">
         <div className="mx-auto mt-8 max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
           <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">

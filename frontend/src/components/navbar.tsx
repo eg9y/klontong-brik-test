@@ -19,7 +19,7 @@ export function NavBar() {
   return (
     <Disclosure
       as="nav"
-      className=" border-b border-slate-200 bg-white fixed w-full z-10 sm:h-16"
+      className=" border-b border-slate-200 bg-white fixed w-full z-10 sm:h-16 text-slate-700"
     >
       {({ open }) => (
         <>

@@ -2,10 +2,10 @@ import { signIn } from 'next-auth/react'
 
 export default function AccessDenied () {
   return (
-    <div className='sm:pt-16 pt-20'>
+    <div className='sm:pt-16 pt-20 bg-white h-[100vh]'>
       <div className="mx-auto max-w-xl py-8 sm:py-4 lg:max-w-4xl">
-      <h1 className="text-2xl font-bold">Access Denied</h1>
-        <p>
+      <h1 className="text-2xl font-bold text-slate-600">Access Denied</h1>
+        <p className='text-slate-600'>
           Please sign in to add products.
         </p>
         <button

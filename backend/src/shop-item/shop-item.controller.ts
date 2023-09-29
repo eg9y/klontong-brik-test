@@ -38,7 +38,7 @@ export class ShopItemController {
   @Post('add-item')
   async addItem(
     @Body(ValidationPipe) createShopItemDto: CreateShopItemDto,
-  ): Promise<void> {
-    await this.shopItemService.create(createShopItemDto);
+  ): Promise<ShopItem> {
+    return this.shopItemService.create(createShopItemDto);
   }
 }

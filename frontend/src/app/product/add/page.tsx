@@ -5,6 +5,8 @@ import { ComboboxInput } from './combobox';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import AccessDenied from '@/components/access-denied';
+import { ArrowPathIcon } from '@heroicons/react/24/solid';
+import { useRouter } from 'next/navigation';
 
 const categories: {
   id: number;
@@ -20,6 +22,7 @@ const categories: {
 ];
 
 export default function Page() {
+  const router = useRouter();
   const [category, setCategory] = useState<{
     id: number;
     name: string;
@@ -34,13 +37,17 @@ export default function Page() {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState<number | null>(null);
   const { data: session } = useSession();
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
+    setIsLoading(true);
 
     // Validate Name
     if (name.length < 3 || name.length > 50) {
-      alert('Name must be between 3 and 50 characters');
+      setError('Name must be between 3 and 50 characters');
       return;
     }
 
@@ -48,13 +55,15 @@ export default function Page() {
     if (
       !categories.find((currCategory) => currCategory.name === category.name)
     ) {
-      alert('Invalid category');
+      setError('Invalid category');
+      setIsLoading(false);
       return;
     }
 
     // Validate SKU
     if (sku.length < 3 || sku.length > 10) {
-      alert('SKU must be between 3 and 10 characters');
+      setError('SKU must be between 3 and 10 characters');
+      setIsLoading(false);
       return;
     }
 
@@ -67,26 +76,30 @@ export default function Page() {
         measurements[measurement as keyof typeof measurements]! < 1 ||
         measurements[measurement as keyof typeof measurements]! > 1000
       ) {
-        alert(`Invalid ${measurement}`);
+        setError(`Invalid ${measurement}`);
+        setIsLoading(false);
         return;
       }
     }
 
     // Validate harga
     if (!price || isNaN(price) || price < 1 || price > 100000000) {
-      alert('Invalid price');
+      setError('Invalid price');
+      setIsLoading(false);
       return;
     }
 
     // Validate Image URL (a simple validation for demonstration)
     if (!imageURL.startsWith('http://') && !imageURL.startsWith('https://')) {
-      alert('Invalid image URL');
+      setError('Invalid image URL');
+      setIsLoading(false);
       return;
     }
 
     // Validate Description
     if (description.length < 10 || description.length > 200) {
-      alert('Description must be between 10 and 200 characters');
+      setError('Description must be between 10 and 200 characters');
+      setIsLoading(false);
       return;
     }
 
@@ -110,6 +123,15 @@ export default function Page() {
         harga: price,
       }),
     });
+
+    if (res.ok) {
+     const data = await res.json();
+      router.push(`/product/${data.id}`);
+    } else if (res.status === 400) {
+      const data = await res.json();
+      setError(data.message);
+    }
+    setIsLoading(false);
   };
 
   if (!session || !session.user) {
@@ -117,12 +139,14 @@ export default function Page() {
   }
 
   return (
-        <div className="sm:pt-16 pt-20">
-          <div className="mx-auto max-w-xl py-8 sm:py-4 lg:max-w-4xl flex flex-col">
+        <div className="sm:pt-16 pt-20 sm:h-full bg-white text-slate-700">
+          <div className="mx-auto max-w-xl py-20 sm:py-4 lg:max-w-4xl flex flex-col">
             <h1 className="text-2xl font-bold">Add Product</h1>
 
-            <form onSubmit={handleFormSubmit} className="flex flex-col">
-              <div className="grid grid-cols-2 py-4 gap-8 ">
+            <form 
+              onSubmit={handleFormSubmit} 
+              className="flex flex-col">
+              <div className="grid px-2 sm:px-0 grid-cols-1 sm:grid-cols-2 py-4 gap-8 ">
                 <div>
                   <label
                     htmlFor="name"
@@ -327,11 +351,19 @@ export default function Page() {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-end pt-10">
+              <div 
+              className="flex justify-end pt-10 gap-4 items-baseline">
+                {error && (
+                  <p className='text-red-600 font-medium'>{error}</p>
+                )}
                 <button
                   type="submit"
-                  className="flex gap-1 rounded-md bg-green-700 px-3 py-2 text-sm font-medium text-emerald-50 shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                  disabled={isLoading}
+                  className="disabled:opacity-70 flex gap-1 rounded-md bg-green-700 px-3 py-2 text-sm font-medium text-emerald-50 shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
                 >
+                  {isLoading && (
+                    <ArrowPathIcon className="h-5 w-5 animate-spin" />
+                  )}
                   Submit Product
                 </button>
               </div>

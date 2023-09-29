@@ -25,3 +25,15 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+@keyframes custom-pulse {
+  0% {
+    background-color: #e0e7f1; /* Change the color to your needs */
+  }
+  50% {
+    background-color: #cbd5e1;
+  }
+  100% {
+    background-color: #e0e7f1;
+  }
+}
