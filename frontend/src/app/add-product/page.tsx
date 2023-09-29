@@ -1,9 +1,23 @@
 'use client';
 
-import AuthSessionProvider from '@/components/auth-session-provider';
 import { NavBar } from '@/components/navbar';
 import { ComboboxInput } from './combobox';
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import AccessDenied from '@/components/access-denied';
+
+const categories: {
+  id: number;
+  name: string;
+}[] = [
+  { id: 1, name: 'Cemilan' },
+  { id: 2, name: 'Minuman' },
+  { id: 3, name: 'Makanan' },
+  { id: 4, name: 'Perabotan' },
+  { id: 5, name: 'Cleaning' },
+  { id: 6, name: 'Obat Herbal' },
+  { id: 7, name: 'Elektronik' },
+];
 
 export default function Page() {
   const [category, setCategory] = useState<{
@@ -19,19 +33,7 @@ export default function Page() {
   const [imageURL, setImageURL] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState<number | null>(null);
-
-  const categories: {
-    id: number;
-    name: string;
-  }[] = [
-    { id: 1, name: 'Cemilan' },
-    { id: 2, name: 'Minuman' },
-    { id: 3, name: 'Makanan' },
-    { id: 4, name: 'Perabotan' },
-    { id: 5, name: 'Cleaning' },
-    { id: 6, name: 'Obat Herbal' },
-    { id: 7, name: 'Elektronik' },
-  ];
+  const { data: session } = useSession();
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -110,11 +112,12 @@ export default function Page() {
     });
   };
 
+  if (!session || !session.user) {
+    return <AccessDenied />
+  }
+
   return (
-    <AuthSessionProvider>
-      <div>
-        <NavBar />
-        <div className="sm:pt-16">
+        <div className="sm:pt-16 pt-20">
           <div className="mx-auto max-w-xl py-8 sm:py-4 lg:max-w-4xl flex flex-col">
             <h1 className="text-2xl font-bold">Add Product</h1>
 
@@ -335,7 +338,5 @@ export default function Page() {
             </form>
           </div>
         </div>
-      </div>
-    </AuthSessionProvider>
   );
 }
