@@ -10,11 +10,8 @@ COPY ./ /usr/src/app
 # Install the application dependencies
 RUN npm install
 
-# Build the application
-RUN npm run build
-
 # Expose port 3000 for the application
 EXPOSE 3000
 
 # Define the command to run the application
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "start:dev"]

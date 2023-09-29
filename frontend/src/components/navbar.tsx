@@ -11,10 +11,11 @@ import {
 import { useDebounce } from 'use-debounce';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 export function NavBar() {
   const { data: session } = useSession();
+  const pathname = usePathname();
 
   return (
     <Disclosure
@@ -43,7 +44,7 @@ export function NavBar() {
                 >
                   Klontongpedia
                 </Link>
-                <div className="flex grow sm:max-w-4xl w-20">
+                <div className={cn("grow sm:max-w-4xl w-20", pathname !== "/" ? "hidden" : "flex")}>
                   <div className="sm:max-w-xl lg:max-w-4xl mx-auto flex w-full gap-2">
                     <div className="relative rounded-md shadow-sm grow sm:w-80">
                       <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">

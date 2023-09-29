@@ -19,6 +19,7 @@ Ensure that the following tools are installed on your machine:
 ## Setup and Installation
 
 1. **Clone the Repository:**
+
    ```bash
    git clone <repository-url>
    ```
@@ -27,9 +28,11 @@ Ensure that the following tools are installed on your machine:
    - Follow the installation guide for [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/).
 
 3. **Check Port Availability:**
+
    - Ensure the ports `5432`, `3000`, and `3001` are not in use on your machine.
 
 4. **Build and Run the Docker Containers:**
+
    ```bash
    docker-compose up --build
    ```
