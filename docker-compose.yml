@@ -1,0 +1,47 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgres://user:password@postgres:5432/mydatabase
+    working_dir: /usr/src/app
+    command: bash -c "npm install && npm run start:dev"
+    volumes:
+      - ./backend:/usr/src/app  # Keep this line
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+
+  # add nextjs frontend here located in ./frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    working_dir: /usr/src/app
+    command: ["./wait-for-it.sh", "-t", "0", "backend:3000", "--", "npm", "run", "dev"]
+    environment:
+      NEXTAUTH_URL: http://localhost:3001
+      NEXTAUTH_SECRET: secretKey
+    volumes:
+      - ./frontend:/usr/src/app  # Keep this line
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+
+volumes:
+  pg_data:
