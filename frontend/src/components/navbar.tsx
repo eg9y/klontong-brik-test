@@ -162,12 +162,13 @@ export function NavBar() {
 
 
 function SearchComponent() {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState<string | null>(null);
   const [debouncedSearchQuery] = useDebounce(searchQuery, 300);  // 300ms debounce delay
   const router = useRouter();
 
   useEffect(() => {
-    if (router) {
+    console.log('debouncedSearchQuery', debouncedSearchQuery);
+    if (debouncedSearchQuery !== null && router) {
       router.push(`?searchQuery=${debouncedSearchQuery}`);
     }
   }, [debouncedSearchQuery, router]);
@@ -180,8 +181,8 @@ function SearchComponent() {
       autoComplete="off"
       className="block w-full rounded-md border-0 py-1.5 pl-10 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
       placeholder="Search Product"
-      value={searchQuery}
-      onChange={e => setSearchQuery(e.target.value)}
+      value={searchQuery || ''}
+      onChange={e => setSearchQuery(e.target.value || "")}
     />
   );
 }

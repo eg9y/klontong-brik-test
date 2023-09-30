@@ -14,7 +14,7 @@ export function ShoppingList() {
     parseInt(useSearchParams().get('skip') || '0') / PRODUCTS_PER_PAGE;
 
   return (
-    <div className="bg-white sm:pt-16 pt-20">
+    <div className="bg-white sm:pt-16 pt-20 h-full">
       <div className="mx-auto max-w-xl py-8 sm:py-4 lg:max-w-4xl">
         <div className="sm:px-0 px-2">
           <p className="text-xs text-slate-700">
